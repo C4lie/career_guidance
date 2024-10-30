@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Select Location</title>
+    <link
+      rel="stylesheet"
+      href="styles.css"
+    />
+  </head>
+  <body>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js"></script>
+    <!-- Add Firebase Authentication SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js"></script>
+
+    <header>
+      <a href="index.html"
+        ><img
+          src="logo.png"
+          alt="Career Guidance Logo"
+          class="logo"
+      /></a>
+    </header>
+
+    <section class="location-selection">
+      <h2>Choose Your Preferred Study Location</h2>
+
+      <button onclick="window.location.href='college-list.html'">India</button>
+      <button onclick="window.location.href='abroad.html'">Abroad</button>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Career Guidance Platform. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

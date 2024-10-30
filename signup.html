@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Sign Up - Career Guidance</title>
+    <link
+      rel="stylesheet"
+      href="styles.css"
+    />
+  </head>
+  <body>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
+
+    <header>
+      <a href="index.html">
+        <img
+          src="logo.png"
+          alt="Career Guidance Logo"
+          class="logo"
+        />
+      </a>
+    </header>
+
+    <section class="form-container">
+      <h2>Create Your Account</h2>
+      <form>
+        <div class="inputbox">
+          <input
+            type="text"
+            id="username"
+            placeholder="username"
+            required
+          />
+        </div>
+        <div class="inputbox">
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="inputbox">
+          <input
+            type="password"
+            id="phone"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="sub"
+          id="submit"
+        >
+          Submit
+        </button>
+      </form>
+      <p>Already have an account? <a href="login.html">Login here</a>.</p>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Career Guidance Platform. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+      // Firebase configuration
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyAqrw0nbTw3ggPW0Tr1v-yiELOsdNqFPeA',
+        authDomain: 'please-25cdf.firebaseapp.com',
+        projectId: 'please-25cdf',
+        storageBucket: 'please-25cdf.appspot.com',
+        messagingSenderId: '1000850078327',
+        appId: '1:1000850078327:web:b9bbcc3643820b76012472',
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      document.getElementById('submit').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+
+        if (username && email && phone) {
+          set(ref(db, 'user/' + username), {
+            username: username,
+            email: email,
+            phone: phone,
+          })
+            .then(() => {
+              alert('Account created successfully!');
+              window.location.href = 'login.html';
+            })
+            .catch((error) => {
+              alert(`Error: ${error.message}`);
+            });
+        } else {
+          alert('Please fill in all fields.');
+        }
+      });
+    </script>
+  </body>
+</html>

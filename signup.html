@@ -14,6 +14,7 @@
   </head>
   <body>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
 
     <header>
@@ -24,16 +25,29 @@
           class="logo"
         />
       </a>
+      <!-- <div id="auth-section">
+        <a
+          href="login.html"
+          id="login-link"
+          >Login</a
+        >
+        |
+        <a
+          href="signup.html"
+          id="signup-link"
+          >Sign Up</a
+        >
+      </div> -->
     </header>
 
     <section class="form-container">
-      <h2>Create Your Account</h2>
+      <h1>Create Your Account</h1>
       <form>
         <div class="inputbox">
           <input
             type="text"
             id="username"
-            placeholder="username"
+            placeholder="Username"
             required
           />
         </div>
@@ -48,7 +62,7 @@
         <div class="inputbox">
           <input
             type="password"
-            id="phone"
+            id="password"
             placeholder="Password"
             required
           />
@@ -69,8 +83,12 @@
     </footer>
 
     <script type="module">
-      // Firebase configuration
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        onAuthStateChanged,
+      } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js';
       import {
         getDatabase,
         ref,
@@ -88,23 +106,29 @@
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
       const db = getDatabase(app);
 
+      // Event listener for sign-up form submission
       document.getElementById('submit').addEventListener('click', function (e) {
         e.preventDefault();
 
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
 
-        if (username && email && phone) {
-          set(ref(db, 'user/' + username), {
-            username: username,
-            email: email,
-            phone: phone,
-          })
-            .then(() => {
-              alert('Account created successfully!');
+        if (username && email && password) {
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+
+              // Save additional user info (username) to the database
+              set(ref(db, 'users/' + user.uid), {
+                username: username,
+                email: email,
+              });
+
+              alert('Sign-up successful!');
               window.location.href = 'login.html';
             })
             .catch((error) => {
@@ -112,6 +136,28 @@
             });
         } else {
           alert('Please fill in all fields.');
+        }
+      });
+
+      // Display "Welcome, [username]" if user is logged in
+      onAuthStateChanged(auth, (user) => {
+        const authSection = document.getElementById('auth-section');
+        if (user) {
+          const userId = user.uid;
+          const userRef = ref(db, 'users/' + userId);
+
+          // Fetch username from database
+          get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              const username = snapshot.val().username;
+              authSection.innerHTML = `Welcome, ${username}`;
+            }
+          });
+        } else {
+          authSection.innerHTML = `
+            <a href="login.html" id="login-link">Login</a> | 
+            <a href="signup.html" id="signup-link">Sign Up</a>
+          `;
         }
       });
     </script>

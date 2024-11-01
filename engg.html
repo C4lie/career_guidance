@@ -6,38 +6,81 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Career Options</title>
+    <title>Career Guidance Platform</title>
     <link
       rel="stylesheet"
       href="styles.css"
     />
   </head>
   <body>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
+
     <header>
       <a
-        href="index1.html"
+        href=""
         id="logo-link"
-        ><img
+      >
+        <img
           src="logo.png"
           alt="Career Guidance Logo"
           class="logo"
-      /></a>
+        />
+      </a>
     </header>
 
+    <!-- Main Content -->
     <section class="career-options">
-      <h2>Select Your Area of Interest</h2>
+      <h1>Select Your Engineering Career Path</h1>
       <ul>
         <li>
-          <a onclick="window.location.href='engg.html'">Engineering</a>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/aerospace-engineers.htm'"
+            >Aerospace Engineering</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='manage.html'">Management</a>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/biomedical-engineers.htm'"
+            >Biomedical Engineering</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='arts.html'">Arts & Humanities</a>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/civil-engineers.htm'"
+            >Civil Engineering</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='science.html'">Sciences</a>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/computer-hardware-engineers.htm'"
+            >Computer Engineering</a
+          >
+        </li>
+        <li>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/electrical-and-electronics-engineers.htm'"
+            >Electrical Engineering</a
+          >
+        </li>
+        <li>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/environmental-engineers.htm'"
+            >Environmental Engineering</a
+          >
+        </li>
+        <li>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/mechanical-engineers.htm'"
+            >Mechanical Engineering</a
+          >
+        </li>
+        <li>
+          <a
+            onclick="window.location.href='https://www.bls.gov/ooh/architecture-and-engineering/chemical-engineers.htm'"
+            >Chemical Engineering</a
+          >
         </li>
       </ul>
     </section>
@@ -45,6 +88,7 @@
     <footer>
       <p>&copy; 2024 Career Guidance Platform. All rights reserved.</p>
     </footer>
+
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
       import {

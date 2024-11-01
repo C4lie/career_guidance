@@ -6,38 +6,81 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Career Options</title>
+    <title>Career Guidance Platform</title>
     <link
       rel="stylesheet"
       href="styles.css"
     />
   </head>
   <body>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
+
     <header>
       <a
-        href="index1.html"
+        href="#"
         id="logo-link"
-        ><img
+      >
+        <img
           src="logo.png"
           alt="Career Guidance Logo"
           class="logo"
-      /></a>
+        />
+      </a>
+      <div id="auth-section"></div>
     </header>
 
+    <!-- Management Career Options -->
     <section class="career-options">
-      <h2>Select Your Area of Interest</h2>
+      <h1>Select Your Management Career Path</h1>
       <ul>
         <li>
-          <a onclick="window.location.href='engg.html'">Engineering</a>
+          <a
+            href="https://www.topuniversities.com/courses/business-management/guide"
+            >Business Management</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='manage.html'">Management</a>
+          <a
+            href="https://www.topuniversities.com/courses/accounting-finance/guide"
+            >Accounting and Finance</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='arts.html'">Arts & Humanities</a>
+          <a href="https://www.topuniversities.com/courses/marketing/guide"
+            >Marketing</a
+          >
         </li>
         <li>
-          <a onclick="window.location.href='science.html'">Sciences</a>
+          <a
+            href="https://www.topuniversities.com/courses/human-resource-management/guide"
+            >Human Resource Management</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.topuniversities.com/courses/operations-management/guide"
+            >Operations Management</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.topuniversities.com/courses/international-business/guide"
+            >International Business</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.topuniversities.com/courses/entrepreneurship/guide"
+            >Entrepreneurship</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.topuniversities.com/courses/supply-chain-management-logistics/guide"
+            >Supply Chain Management</a
+          >
         </li>
       </ul>
     </section>
@@ -45,6 +88,7 @@
     <footer>
       <p>&copy; 2024 Career Guidance Platform. All rights reserved.</p>
     </footer>
+
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
       import {
@@ -85,7 +129,7 @@
           get(userRef).then((snapshot) => {
             if (snapshot.exists()) {
               const username = snapshot.val().username;
-              authSection.innerHTML = `Welcome, ${username} |<a href="#" id="logout">Logout</a>`;
+              authSection.innerHTML = `Welcome, ${username} | <a href="#" id="logout">Logout</a>`;
 
               // Add logout functionality
               document
@@ -100,12 +144,13 @@
               // Redirect to file upload if user clicks the logo and is logged in
               logoLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = 'index1.html';
+                window.location.href = 'upload.html';
               });
             }
           });
         } else {
           // Show login and signup links if no user is logged in
+          authSection.innerHTML = `<a href="login.html">Login</a> | <a href="signup.html">Signup</a>`;
 
           // Redirect to index.html if user clicks the logo and is not logged in
           logoLink.addEventListener('click', (e) => {

@@ -15,32 +15,33 @@
   <body>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"></script>
 
     <header>
-      <a href="index.html"
-        ><img
+      <a href="index.html">
+        <img
           src="logo.png"
           alt="Career Guidance Logo"
           class="logo"
-      /></a>
+        />
+      </a>
     </header>
 
     <section class="form-container">
-      <h2>Login</h2>
+      <h1>Login to Your Account</h1>
       <form>
         <div class="inputbox">
           <input
-            type="Username"
-            id="username"
-            placeholder="Username"
+            type="email"
+            id="email"
+            placeholder="Email"
             required
           />
         </div>
         <div class="inputbox">
           <input
             type="password"
-            id="phone"
+            id="password"
             placeholder="Password"
             required
           />
@@ -48,7 +49,7 @@
         <button
           type="submit"
           class="sub"
-          id="submit"
+          id="login"
         >
           Login
         </button>
@@ -60,42 +61,17 @@
       <p>&copy; 2024 Career Guidance Platform. All rights reserved.</p>
     </footer>
 
-    <!-- <script>
-      const firebaseConfig = {
-        apiKey: 'AIzaSyAqrw0nbTw3ggPW0Tr1v-yiELOsdNqFPeA',
-        authDomain: 'please-25cdf.firebaseapp.com',
-        projectId: 'please-25cdf',
-        storageBucket: 'please-25cdf.appspot.com',
-        messagingSenderId: '1000850078327',
-        appId: '1:1000850078327:web:b9bbcc3643820b76012472',
-      };
-
-      const app = firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-
-      function login() {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        auth
-          .signInWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            alert('Login successful!');
-            window.location.href = 'career.html'; // Redirect to career options page
-          })
-          .catch((error) => {
-            alert(`Login failed: ${error.message}`);
-          });
-      }
-    </script> -->
     <script type="module">
-      // Firebase configuration
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js';
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+      } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js';
       import {
         getDatabase,
         ref,
-        set,
+        get,
       } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js';
 
       const firebaseConfig = {
@@ -109,30 +85,48 @@
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
       const db = getDatabase(app);
 
-      document.getElementById('submit').addEventListener('click', function (e) {
+      document.getElementById('login').addEventListener('click', function (e) {
         e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-        const username = document.getElementById('username').value;
-
-        const phone = document.getElementById('phone').value;
-
-        if (username && phone) {
-          set(ref(db, 'user/' + username), {
-            username: username,
-
-            phone: phone,
-          })
-            .then(() => {
-              alert('Account login successfully!');
-              window.location.href = 'index.html';
+        if (email && password) {
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              alert('Login successful!');
+              window.location.href = 'index1.html';
             })
             .catch((error) => {
               alert(`Error: ${error.message}`);
             });
         } else {
           alert('Please fill in all fields.');
+        }
+      });
+
+      // Display "Welcome, [username]" if user is logged in
+      onAuthStateChanged(auth, (user) => {
+        const authSection = document.getElementById('auth-section');
+        if (user) {
+          const userId = user.uid;
+          const userRef = ref(db, 'users/' + userId);
+
+          // Fetch username from database
+          get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              const username = snapshot.val().username;
+              authSection.innerHTML = `Welcome, ${username}`;
+            }
+          });
+        } else {
+          authSection.innerHTML = `
+          <a href="login.html" id="login-link">Login</a> | 
+          <a href="signup.html" id="signup-link">Sign Up</a>
+        `;
         }
       });
     </script>
